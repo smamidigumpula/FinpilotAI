@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=${MONGODB_URI}
+      - MONGODB_DB=${MONGODB_DB:-atlas_household_cfo}
+      - VOYAGE_API_KEY=${VOYAGE_API_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
+    env_file:
+      - .env.local
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  # MongoDB is hosted on Atlas - no local container needed
+  # Uncomment below if you want to use local MongoDB instead
+  # mongo:
+  #   image: mongo:7
+  #   ports:
+  #     - "27017:27017"
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME:-admin}
+  #     - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD:-password}
+  #     - MONGO_INITDB_DATABASE=${MONGODB_DB:-atlas_household_cfo}
+  #   volumes:
+  #     - mongo-data:/data/db
+  #   restart: unless-stopped
+  #   networks:
+  #     - app-network
+
+# volumes:
+#   mongo-data:
+#     driver: local
+
+networks:
+  app-network:
+    driver: bridge
