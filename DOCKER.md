@@ -1,6 +1,6 @@
 # Docker Setup Guide
 
-This guide explains how to containerize and run the Atlas Household CFO application using Docker.
+This guide explains how to containerize and run the FinpilotAI application using Docker.
 
 ## Prerequisites
 
@@ -16,7 +16,7 @@ If you're using MongoDB Atlas (cloud), you only need to containerize the app:
 1. **Create `.env.local` file** with your credentials:
 ```bash
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/
-MONGODB_DB=atlas_household_cfo
+MONGODB_DB=FinpilotAI
 VOYAGE_API_KEY=your_voyage_api_key
 JWT_SECRET=your_jwt_secret
 NEXTAUTH_URL=http://localhost:3000
@@ -35,8 +35,8 @@ If you want to run MongoDB locally in Docker:
 
 1. **Update `.env.local`** to use local MongoDB:
 ```bash
-MONGODB_URI=mongodb://admin:password@mongo:27017/atlas_household_cfo?authSource=admin
-MONGODB_DB=atlas_household_cfo
+MONGODB_URI=mongodb://admin:password@mongo:27017/FinpilotAI?authSource=admin
+MONGODB_DB=FinpilotAI
 VOYAGE_API_KEY=your_voyage_api_key
 JWT_SECRET=your_jwt_secret
 NEXTAUTH_URL=http://localhost:3000
@@ -192,8 +192,8 @@ cd FinpilotAI
 
 # 2. Create .env.local
 cat > .env.local << EOF
-MONGODB_URI=mongodb://admin:password@mongo:27017/atlas_household_cfo?authSource=admin
-MONGODB_DB=atlas_household_cfo
+MONGODB_URI=mongodb://admin:password@mongo:27017/FinpilotAI?authSource=admin
+MONGODB_DB=FinpilotAI
 VOYAGE_API_KEY=your_key_here
 JWT_SECRET=$(openssl rand -base64 32)
 NEXTAUTH_URL=http://localhost:3000

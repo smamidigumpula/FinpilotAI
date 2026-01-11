@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import ChatInterface from './ChatInterface';
 import DataUpload from './DataUpload';
 import FinancialOverview from './FinancialOverview';
 
@@ -11,7 +10,7 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ user, onLogout }: DashboardProps) {
-  const [activeTab, setActiveTab] = useState<'overview' | 'chat' | 'upload'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'upload'>('overview');
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -21,7 +20,7 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <h1 className="text-2xl font-bold text-gray-900">
-                Atlas Household CFO
+                FinpilotAI
               </h1>
             </div>
             <div className="flex items-center space-x-4">
@@ -52,16 +51,6 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
               Overview
             </button>
             <button
-              onClick={() => setActiveTab('chat')}
-              className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'chat'
-                  ? 'border-indigo-500 text-indigo-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-            >
-              Chat Assistant
-            </button>
-            <button
               onClick={() => setActiveTab('upload')}
               className={`py-4 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'upload'
@@ -77,8 +66,12 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
 
       {/* Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {activeTab === 'overview' && <FinancialOverview householdId={user.householdId} />}
-        {activeTab === 'chat' && <ChatInterface householdId={user.householdId} />}
+        {activeTab === 'overview' && (
+          <FinancialOverview
+            householdId={user.householdId}
+            onNavigate={(tab) => setActiveTab(tab)}
+          />
+        )}
         {activeTab === 'upload' && <DataUpload householdId={user.householdId} />}
       </main>
     </div>

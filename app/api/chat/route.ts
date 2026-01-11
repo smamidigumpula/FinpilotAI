@@ -67,3 +67,30 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const searchParams = request.nextUrl.searchParams;
+    const householdId = searchParams.get('householdId');
+
+    if (!householdId) {
+      return NextResponse.json(
+        { error: 'householdId is required' },
+        { status: 400 }
+      );
+    }
+
+    const db = await getDb();
+    const chatCollection = db.collection<ChatMessage>('chat_messages');
+
+    await chatCollection.deleteMany({ householdId });
+
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
+    console.error('Chat delete error:', error);
+    return NextResponse.json(
+      { error: error.message || 'Failed to clear chat history' },
+      { status: 500 }
+    );
+  }
+}

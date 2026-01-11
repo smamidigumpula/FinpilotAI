@@ -13,8 +13,8 @@ services:
     environment:
       - NODE_ENV=production
       # Use mongo service name as hostname
-      - MONGODB_URI=mongodb://admin:password@mongo:27017/atlas_household_cfo?authSource=admin
-      - MONGODB_DB=atlas_household_cfo
+      - MONGODB_URI=mongodb://admin:password@mongo:27017/FinpilotAI?authSource=admin
+      - MONGODB_DB=FinpilotAI
       - VOYAGE_API_KEY=${VOYAGE_API_KEY}
       - JWT_SECRET=${JWT_SECRET:-change-me-in-production}
       - NEXTAUTH_URL=http://localhost:3000
@@ -34,7 +34,7 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=password
-      - MONGO_INITDB_DATABASE=atlas_household_cfo
+      - MONGO_INITDB_DATABASE=FinpilotAI
     volumes:
       - mongo-data:/data/db
     restart: unless-stopped

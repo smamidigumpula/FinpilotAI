@@ -4,7 +4,7 @@
 
 set -e
 
-echo "🚀 Atlas Household CFO - Docker Setup"
+echo "🚀 FinpilotAI - Docker Setup"
 echo ""
 
 # Check if Docker is installed

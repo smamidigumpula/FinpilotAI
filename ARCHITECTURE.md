@@ -2,7 +2,7 @@
 
 ## System Design
 
-The Atlas Household CFO application uses a multi-agent architecture with MongoDB Atlas as the central data store and memory system.
+The FinpilotAI application uses a multi-agent architecture with MongoDB Atlas as the central data store and memory system.
 
 ```
 ┌─────────────────────────────────────────┐

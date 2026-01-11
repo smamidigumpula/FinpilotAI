@@ -79,7 +79,11 @@ export function transactionToText(tx: Transaction): string {
 export async function embedTransaction(tx: Transaction): Promise<Transaction> {
   if (!tx.embedding) {
     const text = transactionToText(tx);
-    tx.embedding = await createEmbedding(text);
+    try {
+      tx.embedding = await createEmbedding(text);
+    } catch (error) {
+      console.warn('Skipping transaction embedding due to error:', error);
+    }
   }
   return tx;
 }
@@ -87,14 +91,22 @@ export async function embedTransaction(tx: Transaction): Promise<Transaction> {
 export async function embedInsight(insight: Insight): Promise<Insight> {
   if (!insight.embedding) {
     const text = `${insight.type} ${insight.title} ${insight.body}`;
-    insight.embedding = await createEmbedding(text);
+    try {
+      insight.embedding = await createEmbedding(text);
+    } catch (error) {
+      console.warn('Skipping insight embedding due to error:', error);
+    }
   }
   return insight;
 }
 
 export async function embedChatMessage(message: ChatMessage): Promise<ChatMessage> {
   if (!message.embedding && message.role === 'user') {
-    message.embedding = await createEmbedding(message.text);
+    try {
+      message.embedding = await createEmbedding(message.text);
+    } catch (error) {
+      console.warn('Skipping chat embedding due to error:', error);
+    }
   }
   return message;
 }

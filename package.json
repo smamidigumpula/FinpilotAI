@@ -1,5 +1,5 @@
 {
-  "name": "atlas-household-cfo",
+  "name": "finpilot-ai",
   "version": "1.0.0",
   "description": "AI-powered personal finance application for households",
   "private": true,
@@ -10,31 +10,29 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "csv-parse": "^5.5.3",
+    "date-fns": "^3.0.6",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.3.0",
     "next": "^14.2.0",
+    "pdf-parse": "^2.4.5",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
-    "@thesys/react": "^1.0.0",
-    "mongodb": "^6.3.0",
-    "voyageai": "^0.1.0",
-    "csv-parse": "^5.5.3",
-    "zod": "^3.22.4",
-    "bcryptjs": "^2.4.3",
-    "jsonwebtoken": "^9.0.2",
     "recharts": "^2.10.3",
-    "date-fns": "^3.0.6",
-    "openai": "^4.24.1"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^20.11.0",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
-    "@types/bcryptjs": "^2.4.6",
-    "@types/jsonwebtoken": "^9.0.5",
-    "typescript": "^5.3.3",
+    "autoprefixer": "^10.4.17",
     "eslint": "^8.56.0",
-    "eslint-config-next": "^14.2.0",
-    "tailwindcss": "^3.4.0",
+    "eslint-config-next": "^16.1.1",
     "postcss": "^8.4.35",
-    "autoprefixer": "^10.4.17"
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.3.3"
   }
 }

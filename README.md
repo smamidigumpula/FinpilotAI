@@ -1,4 +1,4 @@
-# Atlas Household CFO
+# FinpilotAI
 
 AI-powered personal finance application for households with multi-agent orchestration, MongoDB Vector Search, and generative UI.
 
@@ -72,7 +72,7 @@ cp .env.local.example .env.local
 Edit `.env.local` with your credentials:
 ```
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/
-MONGODB_DB=atlas_household_cfo
+MONGODB_DB=FinpilotAI
 VOYAGE_API_KEY=your_voyage_api_key_here
 JWT_SECRET=your_jwt_secret_here
 NEXTAUTH_URL=http://localhost:3000

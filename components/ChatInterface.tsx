@@ -13,9 +13,11 @@ interface ChatMessage {
 
 interface ChatInterfaceProps {
   householdId: string;
+  variant?: 'full' | 'compact';
+  className?: string;
 }
 
-export default function ChatInterface({ householdId }: ChatInterfaceProps) {
+export default function ChatInterface({ householdId, variant = 'full', className }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -47,6 +49,16 @@ export default function ChatInterface({ householdId }: ChatInterfaceProps) {
       })
       .catch(console.error);
   }, [householdId]);
+
+  const handleClear = async () => {
+    try {
+      await fetch(`/api/chat?householdId=${householdId}`, { method: 'DELETE' });
+    } catch (error) {
+      console.error('Failed to clear chat history:', error);
+    } finally {
+      setMessages([]);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -106,27 +118,37 @@ export default function ChatInterface({ householdId }: ChatInterfaceProps) {
     "How much am I spending on food?",
   ];
 
+  const containerHeight =
+    variant === 'compact' ? 'h-[480px] max-h-[60vh]' : 'h-[calc(100vh-200px)]';
+
   return (
-    <div className="flex flex-col h-[calc(100vh-200px)] bg-white rounded-lg shadow-lg">
+    <div
+      className={`flex flex-col ${containerHeight} bg-white rounded-2xl shadow-lg border border-slate-100 ${className || ''}`}
+    >
+      {variant === 'compact' && (
+        <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 bg-gradient-to-r from-sky-50 via-white to-indigo-50">
+          <div>
+            <div className="text-xs uppercase tracking-[0.2em] text-slate-500">Assistant</div>
+            <div className="text-lg font-semibold text-slate-900">Ask FinpilotAI</div>
+          </div>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={handleClear}
+              className="text-xs font-medium text-slate-500 hover:text-slate-700"
+              disabled={loading}
+            >
+              Clear chat
+            </button>
+            <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">
+              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+              Online
+            </span>
+          </div>
+        </div>
+      )}
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-6 space-y-4">
-        {messages.length === 0 && (
-          <div className="text-center text-gray-500 py-8">
-            <h3 className="text-lg font-medium mb-2">Welcome to your Finance Assistant!</h3>
-            <p className="mb-4">Ask me questions like:</p>
-            <div className="flex flex-wrap gap-2 justify-center">
-              {suggestedQueries.map((query, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setInput(query)}
-                  className="px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-sm hover:bg-indigo-100"
-                >
-                  {query}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
 
         {messages.map((msg, idx) => (
           <div
@@ -179,13 +201,40 @@ export default function ChatInterface({ householdId }: ChatInterfaceProps) {
 
       {/* Input */}
       <form onSubmit={handleSubmit} className="border-t p-4">
+        <div className="mb-3">
+          <p className="text-xs text-slate-500 text-center mb-2">
+            Ask me questions like:
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {suggestedQueries.map((query, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setInput(query)}
+                className="px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-xs hover:bg-indigo-100"
+              >
+                {query}
+              </button>
+            ))}
+            {variant !== 'compact' && (
+              <button
+                type="button"
+                onClick={handleClear}
+                className="ml-auto text-xs font-medium text-slate-500 hover:text-slate-700"
+                disabled={loading}
+              >
+                Clear chat
+              </button>
+            )}
+          </div>
+        </div>
         <div className="flex space-x-2">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask a question about your finances..."
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             disabled={loading}
           />
           <button

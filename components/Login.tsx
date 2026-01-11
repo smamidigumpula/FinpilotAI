@@ -42,7 +42,7 @@ export default function Login({ onLogin }: LoginProps) {
       <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Atlas Household CFO
+            FinpilotAI
           </h1>
           <p className="text-gray-600">
             Your AI-powered personal finance assistant

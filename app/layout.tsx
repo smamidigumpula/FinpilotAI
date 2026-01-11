@@ -5,7 +5,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Atlas Household CFO',
+  title: 'FinpilotAI',
   description: 'AI-powered personal finance application for households',
 };
 

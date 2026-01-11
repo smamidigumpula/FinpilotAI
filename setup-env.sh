@@ -41,13 +41,13 @@ if [ -z "$VOYAGE_KEY" ]; then
 fi
 
 # Generate JWT secret
-JWT_SECRET=$(openssl rand -base64 32 2>/dev/null || echo "atlas-household-cfo-secret-key-$(date +%s)")
+JWT_SECRET=$(openssl rand -base64 32 2>/dev/null || echo "finpilot-ai-secret-key-$(date +%s)")
 
 # Create .env.local
 cat > .env.local << EOF
 # MongoDB Atlas Configuration
 MONGODB_URI=mongodb+srv://${MONGO_USER}:${MONGO_PASS_ENCODED}@${CLUSTER_URL}/?retryWrites=true&w=majority
-MONGODB_DB=atlas_household_cfo
+MONGODB_DB=FinpilotAI
 
 # VoyageAI API Key
 VOYAGE_API_KEY=${VOYAGE_KEY}
@@ -68,7 +68,7 @@ echo ""
 echo "📋 Configuration:"
 echo "   MongoDB User: ${MONGO_USER}"
 echo "   MongoDB Cluster: ${CLUSTER_URL}"
-echo "   Database: atlas_household_cfo"
+echo "   Database: FinpilotAI"
 echo "   VoyageAI Key: ${VOYAGE_KEY}"
 echo ""
 echo "⚠️  Next steps:"

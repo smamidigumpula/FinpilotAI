@@ -62,12 +62,60 @@ export class AnalyticsAgent {
               $cond: [{ $lt: ['$amount', 0] }, { $abs: '$amount' }, 0],
             },
           },
+          count: { $sum: 1 },
         },
       },
     ];
 
     const result = await collection.aggregate(pipeline).toArray();
-    const data = result[0] || { income: 0, expenses: 0 };
+    const data = result[0] || { income: 0, expenses: 0, count: 0 };
+
+    if (!month && data.count === 0) {
+      const latest = await collection
+        .find({ householdId })
+        .sort({ postedAt: -1 })
+        .limit(1)
+        .project({ postedAt: 1 })
+        .toArray();
+
+      if (latest[0]?.postedAt) {
+        const latestMonth = latest[0].postedAt as Date;
+        const latestStart = startOfMonth(latestMonth);
+        const latestEnd = endOfMonth(latestMonth);
+        const latestResult = await collection.aggregate([
+          {
+            $match: {
+              householdId,
+              postedAt: { $gte: latestStart, $lte: latestEnd },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              income: {
+                $sum: {
+                  $cond: [{ $gte: ['$amount', 0] }, '$amount', 0],
+                },
+              },
+              expenses: {
+                $sum: {
+                  $cond: [{ $lt: ['$amount', 0] }, { $abs: '$amount' }, 0],
+                },
+              },
+            },
+          },
+        ]).toArray();
+        const latestData = latestResult[0] || { income: 0, expenses: 0 };
+        return {
+          income: latestData.income || 0,
+          expenses: latestData.expenses || 0,
+          net: (latestData.income || 0) - (latestData.expenses || 0),
+          period: `${latestMonth.getFullYear()}-${(latestMonth.getMonth() + 1)
+            .toString()
+            .padStart(2, '0')}`,
+        };
+      }
+    }
 
     return {
       income: data.income || 0,
